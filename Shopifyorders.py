@@ -56,7 +56,7 @@ def get_shopify(day=30):
 
     return orders
 print("API Calling Started.......")
-orders = get_shopify(1)
+orders = get_shopify(30)
 print("Data is Prepared")
 name = []
 sku = []
@@ -135,8 +135,8 @@ sorted_final=sort_final[((final["financial_status"]=="paid")|(final["financial_s
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('./emerald-cab-384306-b8566336d0b0.json', scope)
 client = gspread.authorize(creds)
-skugs=client.open('SKU Creation - Res.(SAURABH JAIN) ')
-skuworksheet=skugs.worksheet('Merged Both')
+skugs=client.open('Select._Master_Data_2023')
+skuworksheet=skugs.worksheet('sku_parent')
 sku_record=skuworksheet.get_all_records()
 sku_df=pd.DataFrame(sku_record)
 sorted_sku=sku_df[["Child SKU","Parent Category"]].copy()
