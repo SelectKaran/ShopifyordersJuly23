@@ -56,7 +56,7 @@ def get_shopify(day=30):
 
     return orders
 print("API Calling Started.......")
-orders = get_shopify(30)
+orders = get_shopify(40)
 print("Data is Prepared")
 name = []
 sku = []
