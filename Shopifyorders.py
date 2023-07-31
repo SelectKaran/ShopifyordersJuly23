@@ -131,7 +131,7 @@ sort_final=final[['Order Date','ID','Order-ID', 'Customer Name', 'State', 'Pinco
                   'fulfillment_status','Final Price', 'discount_codes', 'Discount_Amount', 'Discount_Type','AWB', 'check_replacement',\
                   'payment_type', 'Name', 'Child SKU','quantity', 'Weight', 'Item-Price']].copy()
 print("Ready to save Data...")
-sorted_final=sort_final[((final["financial_status"]=="paid")|(final["financial_status"]=="pending"))&((final["fulfillment_status"]!="restocked"))].copy()
+sorted_final=sort_final[((final["financial_status"]=="paid")|(final["financial_status"]=="pending")|(final["financial_status"]=="partially_refunded"))&((final["fulfillment_status"]!="restocked"))].copy()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('./emerald-cab-384306-b8566336d0b0.json', scope)
 client = gspread.authorize(creds)
