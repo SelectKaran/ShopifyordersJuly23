@@ -24,7 +24,7 @@ def extract_payment_type(payment_str):
 def get_shopify(day=30):
     api_key = "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"
     store_name = "kyari-co"
-    api_version = "2023-04"
+    api_version = "2023-07"
     orders = []
     last_order_id = 2500
     is_last_page = False
@@ -56,7 +56,7 @@ def get_shopify(day=30):
 
     return orders
 print("API Calling Started.......")
-orders = get_shopify(60)
+orders = get_shopify(30)
 print("Data is Prepared")
 name = []
 sku = []
