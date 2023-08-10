@@ -22,7 +22,7 @@ def extract_payment_type(payment_str):
     else:
         return ''
 def get_shopify(day=30):
-    api_key = "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"
+    api_key = "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"
     store_name = "kyari-co"
     api_version = "2023-07"
     orders = []
@@ -65,10 +65,13 @@ rn = []
 id_list=[]
 w=[]
 pr=[]
+can=[]
 for i in orders:
     id=i["id"]
-    order_id = i["name"]  # Get the Order-ID for the current order
+    order_id = i["name"] 
+    cancel=i["cancelled_at"]# Get the Order-ID for the current order
     for x in i["line_items"]:
+        can.append(cancel)
         id_list.append(id)
         rn.append(order_id)    # Append the Order-ID for each line item
         name.append(x.get("name", None))
@@ -76,8 +79,9 @@ for i in orders:
         quantity.append(x.get("quantity", None))
         w.append(x.get("grams",None))
         pr.append(x.get("price",None))
-data_dict = {"ID":id_list,"Order-ID": rn, "Name": name, "Child SKU": sku, "quantity": quantity,"Weight":w,"Item-Price":pr}
+data_dict = {"ID":id_list,"Order-ID": rn, "Name": name, "Child SKU": sku, "quantity": quantity,"Weight":w,"Item-Price":pr,"Cancel Date":can}
 df2 = pd.DataFrame(data_dict)
+df2['Cancel Date']=df2['Cancel Date'].apply(extract_date)
 new_list = []
 for dictionary in orders:
     discount_codes = dictionary.get("discount_codes", [])
@@ -129,7 +133,7 @@ final['Contact Number'] = final['Contact Number'].str.replace(r'\+', '', regex=T
 final=final.merge(df2,on="Order-ID",how="left")
 sort_final=final[['Order Date','ID','Order-ID', 'Customer Name', 'State', 'Pincode','Contact Number', 'financial_status', \
                   'fulfillment_status','Final Price', 'discount_codes', 'Discount_Amount', 'Discount_Type','AWB', 'check_replacement',\
-                  'payment_type', 'Name', 'Child SKU','quantity', 'Weight', 'Item-Price']].copy()
+                  'payment_type', 'Name', 'Child SKU','quantity', 'Weight', 'Item-Price',"Cancel Date"]].copy()
 print("Ready to save Data...")
 sorted_final=sort_final[((final["financial_status"]=="paid")|(final["financial_status"]=="pending")|(final["financial_status"]=="partially_refunded"))&((final["fulfillment_status"]!="restocked"))].copy()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
